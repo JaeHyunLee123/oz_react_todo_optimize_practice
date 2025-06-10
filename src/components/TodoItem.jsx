@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { memo, useRef, useState } from 'react';
 
-const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
+const TodoItemComponent = ({ todo, onToggle, onDelete, onEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [editText, setEditText] = useState(todo.text);
+    const inputRef = useRef(null);
 
     const handleEdit = () => {
+        const editText = inputRef.current?.value.trim();
         onEdit(todo.id, editText);
         setIsEditing(false);
     };
@@ -15,12 +16,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
 
             {isEditing ? (
                 <div className="flex flex-1">
-                    <input
-                        type="text"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        className="flex-1 mr-2 p-1.5 border border-gray-300 rounded"
-                    />
+                    <input type="text" ref={inputRef} className="flex-1 mr-2 p-1.5 border border-gray-300 rounded" />
                     <button onClick={handleEdit} className="px-2 py-1 bg-blue-500 text-white rounded mr-1">
                         저장
                     </button>
@@ -47,5 +43,7 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
         </div>
     );
 };
+
+const TodoItem = memo(TodoItemComponent);
 
 export default TodoItem;
