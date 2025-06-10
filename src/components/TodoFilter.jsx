@@ -1,4 +1,6 @@
-const TodoFilter = ({ filter, onFilterChange }) => {
+import { memo } from 'react';
+
+const TodoFilterComponent = ({ filter, onFilterChange }) => {
     return (
         <div className="my-5 p-2.5 bg-gray-100 rounded">
             <span className="mr-2">필터: </span>
@@ -29,5 +31,7 @@ const TodoFilter = ({ filter, onFilterChange }) => {
         </div>
     );
 };
+
+const TodoFilter = memo(TodoFilterComponent);
 
 export default TodoFilter;
