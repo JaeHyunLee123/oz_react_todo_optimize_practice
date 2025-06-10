@@ -1,13 +1,18 @@
-const TodoStats = ({ todos }) => {
-    const calculateStats = () => {
-        const total = todos.length;
-        const completed = todos.filter((todo) => todo.completed).length;
-        const active = total - completed;
-        const percentCompleted = total === 0 ? 0 : Math.round((completed / total) * 100);
-        return { total, completed, active, percentCompleted };
-    };
+import { memo, useCallback, useMemo } from 'react';
 
-    const stats = calculateStats();
+const TodoStatsComponent = ({ todos }) => {
+    const calculateStats = useCallback(
+        function () {
+            const total = todos.length;
+            const completed = todos.filter((todo) => todo.completed).length;
+            const active = total - completed;
+            const percentCompleted = total === 0 ? 0 : Math.round((completed / total) * 100);
+            return { total, completed, active, percentCompleted };
+        },
+        [todos],
+    );
+
+    const stats = useMemo(() => calculateStats(), [calculateStats]);
 
     return (
         <div className="my-5 p-4 bg-gray-100 rounded">
@@ -22,5 +27,7 @@ const TodoStats = ({ todos }) => {
         </div>
     );
 };
+
+const TodoStats = memo(TodoStatsComponent);
 
 export default TodoStats;
