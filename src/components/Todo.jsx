@@ -39,17 +39,16 @@ const Todo = () => {
     const handleFilterChange = useCallback((newFilter) => setFilter(newFilter), [setFilter]);
 
     const getFilteredTodos = useCallback(
-        () =>
-            function () {
-                switch (filter) {
-                    case 'active':
-                        return todos.filter((todo) => !todo.completed);
-                    case 'completed':
-                        return todos.filter((todo) => todo.completed);
-                    default:
-                        return todos;
-                }
-            },
+        function () {
+            switch (filter) {
+                case 'active':
+                    return todos.filter((todo) => !todo.completed);
+                case 'completed':
+                    return todos.filter((todo) => todo.completed);
+                default:
+                    return todos;
+            }
+        },
         [todos, filter],
     );
 
